@@ -47,7 +47,10 @@ fn last_digit_spelled_out(input: &str) -> Option<u32> {
     let mut input_string = input.chars().rev().collect::<String>();
     let mut tail;
 
-    if let Some(p) = NUMS_REVERSED.iter().position(|n| input_string.starts_with(n)) {
+    if let Some(p) = NUMS_REVERSED
+        .iter()
+        .position(|n| input_string.starts_with(n))
+    {
         return Some(p as u32 + 1);
     }
 
@@ -112,7 +115,9 @@ mod tests {
 
     #[test]
     fn test_part_two() {
-        let result = part_two(&advent_of_code::template::read_file_part("examples", DAY, 2));
+        let result = part_two(&advent_of_code::template::read_file_part(
+            "examples", DAY, 2,
+        ));
         assert_eq!(result, Some(281));
     }
 }
