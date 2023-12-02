@@ -38,7 +38,7 @@ impl FromStr for Pick {
     type Err = ();
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
-        let mut parts = s.split(',');
+        let parts = s.split(',');
 
         let mut pick = Pick {
             blue: 0,
@@ -46,7 +46,7 @@ impl FromStr for Pick {
             red: 0,
         };
 
-        while let Some(part) = parts.next() {
+        for part in parts {
             let (count, color) = part.trim().split_once(' ').unwrap();
             match color {
                 "blue" => pick.blue = count.parse().unwrap(),
@@ -70,14 +70,14 @@ pub fn part_one(input: &str) -> Option<u32> {
                 let pick = pick.parse::<Pick>().unwrap();
                 pick.possible()
             }) {
-                return Some(game_num);
+                Some(game_num)
             } else {
-                return None;
+                None
             }
         })
         .sum();
 
-    return Some(total);
+    Some(total)
 }
 
 pub fn part_two(input: &str) -> Option<u32> {
@@ -99,7 +99,7 @@ pub fn part_two(input: &str) -> Option<u32> {
         })
         .sum();
 
-    return Some(total);
+    Some(total)
 }
 
 #[cfg(test)]
