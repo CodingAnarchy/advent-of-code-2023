@@ -107,9 +107,8 @@ impl Almanac {
         let light = self.water_map.clone().map(water);
         let temp = self.sunlight_map.clone().map(light);
         let humidity = self.temperature_map.clone().map(temp);
-        let result = self.humidity_map.clone().map(humidity);
 
-        result
+        self.humidity_map.clone().map(humidity)
     }
 
     fn min_range_location(&self, range: Range<u64>) -> u64 {
@@ -176,11 +175,11 @@ impl Almanac {
     }
 
     fn min_seed_location(&self) -> u64 {
-        let mut seed_iter = self.seeds.clone().into_iter();
+        let seed_iter = self.seeds.clone().into_iter();
 
         let mut min_location = u64::MAX;
 
-        while let Some(seed) = seed_iter.next() {
+        for seed in seed_iter {
             match seed {
                 Seed::Spot(spot) => {
                     let new_location = self.map_seed_to_location(spot);
@@ -209,7 +208,7 @@ impl Almanac {
 
         while let Some(line) = iter.next() {
             if line.starts_with("seeds") {
-                let (_, seed_str) = line.split(":").collect_tuple().unwrap();
+                let (_, seed_str) = line.split(':').collect_tuple().unwrap();
 
                 let parsed_seeds = seed_str
                     .split_whitespace()
@@ -227,7 +226,7 @@ impl Almanac {
                     })
                     .collect();
             } else if line.starts_with("seed-to-soil") {
-                while let Some(line) = iter.next() {
+                for line in iter.by_ref() {
                     if line.is_empty() {
                         break;
                     }
@@ -235,7 +234,7 @@ impl Almanac {
                     seed_map.push(line.parse::<AlmanacMapEntry>().unwrap());
                 }
             } else if line.starts_with("soil") {
-                while let Some(line) = iter.next() {
+                for line in iter.by_ref() {
                     if line.is_empty() {
                         break;
                     }
@@ -243,7 +242,7 @@ impl Almanac {
                     soil_map.push(line.parse::<AlmanacMapEntry>().unwrap());
                 }
             } else if line.starts_with("fertilizer") {
-                while let Some(line) = iter.next() {
+                for line in iter.by_ref() {
                     if line.is_empty() {
                         break;
                     }
@@ -251,7 +250,7 @@ impl Almanac {
                     fertilizer_map.push(line.parse::<AlmanacMapEntry>().unwrap());
                 }
             } else if line.starts_with("water") {
-                while let Some(line) = iter.next() {
+                for line in iter.by_ref() {
                     if line.is_empty() {
                         break;
                     }
@@ -259,7 +258,7 @@ impl Almanac {
                     water_map.push(line.parse::<AlmanacMapEntry>().unwrap());
                 }
             } else if line.starts_with("light") {
-                while let Some(line) = iter.next() {
+                for line in iter.by_ref() {
                     if line.is_empty() {
                         break;
                     }
@@ -267,7 +266,7 @@ impl Almanac {
                     sunlight_map.push(line.parse::<AlmanacMapEntry>().unwrap());
                 }
             } else if line.starts_with("temperature") {
-                while let Some(line) = iter.next() {
+                for line in iter.by_ref() {
                     if line.is_empty() {
                         break;
                     }
@@ -275,7 +274,7 @@ impl Almanac {
                     temperature_map.push(line.parse::<AlmanacMapEntry>().unwrap());
                 }
             } else if line.starts_with("humidity") {
-                while let Some(line) = iter.next() {
+                for line in iter.by_ref() {
                     if line.is_empty() {
                         break;
                     }
@@ -315,14 +314,14 @@ impl FromStr for Almanac {
 
         while let Some(line) = iter.next() {
             if line.starts_with("seeds") {
-                let (_, seed_str) = line.split(":").collect_tuple().unwrap();
+                let (_, seed_str) = line.split(':').collect_tuple().unwrap();
 
                 seeds = seed_str
                     .split_whitespace()
                     .map(|s| Seed::Spot(s.parse::<u64>().unwrap()))
                     .collect();
             } else if line.starts_with("seed-to-soil") {
-                while let Some(line) = iter.next() {
+                for line in iter.by_ref() {
                     if line.is_empty() {
                         break;
                     }
@@ -330,7 +329,7 @@ impl FromStr for Almanac {
                     seed_map.push(line.parse::<AlmanacMapEntry>().unwrap());
                 }
             } else if line.starts_with("soil") {
-                while let Some(line) = iter.next() {
+                for line in iter.by_ref() {
                     if line.is_empty() {
                         break;
                     }
@@ -338,7 +337,7 @@ impl FromStr for Almanac {
                     soil_map.push(line.parse::<AlmanacMapEntry>().unwrap());
                 }
             } else if line.starts_with("fertilizer") {
-                while let Some(line) = iter.next() {
+                for line in iter.by_ref() {
                     if line.is_empty() {
                         break;
                     }
@@ -346,7 +345,7 @@ impl FromStr for Almanac {
                     fertilizer_map.push(line.parse::<AlmanacMapEntry>().unwrap());
                 }
             } else if line.starts_with("water") {
-                while let Some(line) = iter.next() {
+                for line in iter.by_ref() {
                     if line.is_empty() {
                         break;
                     }
@@ -354,7 +353,7 @@ impl FromStr for Almanac {
                     water_map.push(line.parse::<AlmanacMapEntry>().unwrap());
                 }
             } else if line.starts_with("light") {
-                while let Some(line) = iter.next() {
+                for line in iter.by_ref() {
                     if line.is_empty() {
                         break;
                     }
@@ -362,7 +361,7 @@ impl FromStr for Almanac {
                     sunlight_map.push(line.parse::<AlmanacMapEntry>().unwrap());
                 }
             } else if line.starts_with("temperature") {
-                while let Some(line) = iter.next() {
+                for line in iter.by_ref() {
                     if line.is_empty() {
                         break;
                     }
@@ -370,7 +369,7 @@ impl FromStr for Almanac {
                     temperature_map.push(line.parse::<AlmanacMapEntry>().unwrap());
                 }
             } else if line.starts_with("humidity") {
-                while let Some(line) = iter.next() {
+                for line in iter.by_ref() {
                     if line.is_empty() {
                         break;
                     }
